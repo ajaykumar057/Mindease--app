@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PenTool, Sparkles, Save, RefreshCw, BookOpen, Calendar, Heart, Leaf, Sun } from "lucide-react";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const Journal = () => {
   const [prompt, setPrompt] = useState("");
   const [entry, setEntry] = useState("");
@@ -13,7 +15,7 @@ const Journal = () => {
   const fetchPrompt = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/ai/journal-prompt");
+      const res = await axios.get(`${API_BASE_URL}/api/ai/journal-prompt`);
       setPrompt(res.data.prompt);
     } catch (err) {
       console.error("🔥 Error fetching prompt:", err);
@@ -31,7 +33,7 @@ const Journal = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/journal", {
+      await axios.post(`${API_BASE_URL}/api/journal`, {
         prompt,
         entry,
         date: new Date().toISOString(),
